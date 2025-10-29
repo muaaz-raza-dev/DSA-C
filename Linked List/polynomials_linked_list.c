@@ -1,16 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct node* node_ptr;
-
-struct node{
-    int element;
-    node_ptr next;
-};
-typedef struct node node;
-typedef struct node* List; // Header
-typedef struct node* Position; // adress of a node in a linked list 
-// ? We will use header in our linked list to validate push, and empty linkedlist
+#include "applications.h"
 
 List init_list(){
 List list_header = malloc(sizeof(node));
@@ -22,7 +12,7 @@ list_header->next = NULL;
 return list_header;
 }
 
-int push_front_list(List head,int val){
+int push_front_list(List head,int exp,int coef){
     if(head ==NULL) {
     printf("Invalid Header address");
     return 1;
@@ -34,7 +24,8 @@ int push_front_list(List head,int val){
         printf("Memory allocation failed ! \n");
         return 1;
     }
-    new_block->element = val;
+    new_block->exponent = exp;
+    new_block->coeffecient = coef;
     if(p == NULL){
         new_block->next = NULL;
         head->next = new_block;   
@@ -46,11 +37,38 @@ int push_front_list(List head,int val){
     return 0;
 }
 
+
+
+int push_back_list(List head,int exp,int coef){
+    if(head ==NULL) {
+    printf("Invalid Header address");
+    return 1;
+}
+    Position p = head;
+
+    Position new_block = malloc(sizeof(node));
+    if(new_block == NULL){
+        printf("Memory allocation failed ! \n");
+        return 1;
+    }
+    while (p&&p->next){
+        p = p->next;
+    }
+    
+    new_block->exponent = exp;
+    new_block->coeffecient = coef;
+    new_block->next = NULL;
+    p->next = new_block;   
+    
+    return 0;
+}
+
+
 void traverse_list(List head){
     Position p = head->next;
     printf("Linked List:\n");
     while (p!=NULL){
-    printf("%d\n",p->element);
+    printf("%dx^%d\n",p->coeffecient,p->exponent);
     p = p->next;
     }
 }
@@ -61,9 +79,9 @@ int check_is_null(List head){
 }
 
 
-Position find_elem_list(List head,int val){
+Position find_elem_list(List head,int exp){
     Position p = head->next;
-    while (p!=NULL && p->element != val){
+    while (p!=NULL && p->exponent != exp){
         p = p->next;
     }
     return p;
@@ -71,12 +89,12 @@ Position find_elem_list(List head,int val){
 
 
 
-Position find_prev_elem_list(List head,int val){
+Position find_prev_elem_list(List head,int exp){
     Position p = head;
     if(check_is_null(head)){
         return NULL;
     }
-    while (p->next!=NULL && p->next->element != val){
+    while (p->next!=NULL && p->next->exponent != exp){
         p = p->next;
         if(p->next==NULL){
             p = NULL ;
@@ -116,16 +134,3 @@ int delete_list(List head){
     return 0;
 }
 
-
-int main(){
-
-List header = init_list() ;
-push_front_list(header,5);
-push_front_list(header,4);
-push_front_list(header,3);
-
-delete_list(header);
-
-traverse_list(header);
-
-}

@@ -131,6 +131,17 @@ void print_list(List head){
 int main(void) {
     List d_list = init_list();
 
-    
+    push(d_list,1);    
+    push(d_list,2);
+    push(d_list,4);
+    insert(d_list,find(d_list,2),9);
+    print_list(d_list);
+    delete(d_list,find(d_list,9));
+    print_list(d_list);
+    pop(d_list);
+
+    print_list(d_list);
+    free_list(d_list);
+    print_list(d_list);
     return 0;
 }
