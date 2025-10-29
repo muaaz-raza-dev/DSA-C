@@ -119,6 +119,7 @@ int delete_list(List head){
 }
 
 int main(){
+    
 List header = init_list() ;
 push_front_list(header,5);
 push_front_list(header,4);
